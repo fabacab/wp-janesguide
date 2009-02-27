@@ -42,17 +42,13 @@ if (!defined(WP_JANESGUIDE_URL)) {
 }
 
 class WP_JanesGuide {
-    var $review_uri; /**< URI of the permalink of the review of this site. */
+    var $janes_prefix = 'http://www.janesguide.com/'; /**< Hardcode the domain of JanesGuide.com to frustrate phishing opportunities. */
 
     /**
      * Constructor.
      */
     function WP_JanesGuide () {
-        // get the user's award URI from the database
-        // or use the JanesGuide homepage if no permalink.
-        $this->review_uri = (get_option('janesguide_review_uri')) ? get_option('janesguide_review_uri') : 'http://www.janesguide.com/' ;
-
-        add_option('janesguide_review_uri', $this->review_uri);
+        add_option('janesguide_review_uri', get_option('janesguide_review_uri'));
     }
 }
 $wp_janesguide = new WP_JanesGuide();
@@ -82,7 +78,7 @@ function wp_janesguide_options () {
                         <tr>
                             <th scope="row"><label for="janesguide_review_uri">Review URI</label></th>
                             <td>
-                                <input id="janesguide_review_uri" name="janesguide_review_uri" class="regular-text" value="<?php print get_option('janesguide_review_uri');?>" />
+                                <?php print $wp_janesguide->janes_prefix;?><input id="janesguide_review_uri" name="janesguide_review_uri" class="regular-text" value="<?php print get_option('janesguide_review_uri');?>" onchange="if (this.value.match(/^http:\/\/www\.janesguide\.com\//)) { this.value = this.value.substr(26, this.value.length - 26) }" />
                                 <span class="setting-description">Enter the web address of your review on <a href="http://www.janesguide.com/">JanesGuide.com</a>.</span>
                             </td>
                         </tr>
@@ -102,13 +98,14 @@ function wp_janesguide_options () {
 /**
  * Displays this site's JanesGuide award.
  * 
- * @param string $award Which award image to display. Options are "quality" or "originalquality".
+ * @param string $award Which award image to display. Options are "quality" (the default) or "originalquality".
  * @param bool $out Returns the HTML output instead of printing it if false. Defaults to true.
  * @return mixed Void if $out is true, otherwise a string of the constructed HTML.
  */
 
 function wp_janesguide_award ($award = 'quality', $out = true) {
-    $html = '<a href="' . get_option('janesguide_review_uri') . '"><img src="' . WP_JANESGUIDE_URL;
+    global $wp_janesguide;
+    $html = '<a href="' . $wp_janesguide->janes_prefix . get_option('janesguide_review_uri') . '"><img src="' . WP_JANESGUIDE_URL;
     switch ($award) {
         case 'originalquality':
             $html .= '/linkbackqo.gif" alt="Jane says we\'re quality and original!"';
@@ -133,8 +130,9 @@ function wp_janesguide_award ($award = 'quality', $out = true) {
  * @return void
  */
 function wp_janesguide_icon () {
+    global $wp_janesguide;
     $src   = WP_JANESGUIDE_URL . '/janesays.gif';
-    $html  = '<a href="http://www.janesguide.com/">';
+    $html  = '<a href="' . $wp_janesguide->janes_prefix . '">';
     $html .= "<img src=\"$src\" alt=\"Fine adult website reviews, galleries, sex toys and more at JanesGuide.com!\" />";
     $html .= '</a>';
     print $html;
