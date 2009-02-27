@@ -3,7 +3,7 @@
  * Plugin Name: WP-JanesGuide
  * Version: 0.1
  * Plugin URI: http://maybemaimed.com/playground/wp-janesguide-wordpress-plugin/
- * Description: Enables the display of JanesGuide awards on your WordPress generated pages.
+ * Description: Easily enables the display of <a href="http://JanesGuide.com">JanesGuide.com</a> awards on your WordPress-generated pages.
  * Author: Meitar "maymay" Moscovitz
  * Author URI: http://maybemaimed.com/
  *
@@ -30,16 +30,19 @@
 
 /*********************
  * Metadata and stuff.
- */
+ ********************/
+
+define('WP_DEBUG', true);
 
 if (!defined(WP_JANESGUIDE_URL)) {
     define('WP_JANESGUIDE_URL', get_bloginfo('wpurl') . '/' . PLUGINDIR . '/wp-janesguide');
 } else {
+    // This shouldn't ever really happen, right?
     die('WP JanesGuide has already been defined. Duplicate instance running?');
 }
 
 class WP_JanesGuide {
-    var $review_uri;
+    var $review_uri; /**< URI of the permalink of the review of this site. */
 
     /**
      * Constructor.
@@ -47,21 +50,54 @@ class WP_JanesGuide {
     function WP_JanesGuide () {
         // get the user's award URI from the database
         // or use the JanesGuide homepage if no permalink.
-        $this->review_uri = ($this->getReviewURI()) ? $this->getReviewURI() : 'http://www.janesguide.com/' ;
-    }
+        $this->review_uri = (get_option('janesguide_review_uri')) ? get_option('janesguide_review_uri') : 'http://www.janesguide.com/' ;
 
-    /**
-     * Retrieves the user's saved review permalink.
-     */
-    function getReviewURI () {
-        return $this->review_uri;
+        add_option('janesguide_review_uri', $this->review_uri);
     }
 }
 $wp_janesguide = new WP_JanesGuide();
 
+/****************************
+ * Administration page stuff.
+ ***************************/
+
+add_action('admin_menu', 'wp_janesguide_menu');
+function wp_janesguide_menu () {
+    add_options_page('JanesGuide Awards', 'JanesGuide', 8, __FILE__, 'wp_janesguide_options');
+}
+
+function wp_janesguide_options () {
+    global $wp_janesguide;
+?>
+    <div class="wrap">
+        <h2>JanesGuide Settings</h2>
+        <form method="post" action="options.php">
+            <input type="hidden" name="action" value="update" />
+            <input type="hidden" name="page_options" value="janesguide_review_uri" />
+            <?php wp_nonce_field('update-options'); // useful WordPress magic ?>
+            <fieldset>
+                <legend>Review Details</legend>
+                <table summary="" class="form-table">
+                    <tbody>
+                        <tr>
+                            <th scope="row"><label for="janesguide_review_uri">Review URI</label></th>
+                            <td>
+                                <input id="janesguide_review_uri" name="janesguide_review_uri" class="regular-text" value="<?php print get_option('janesguide_review_uri');?>" />
+                                <span class="setting-description">Enter the web address of your review on <a href="http://www.janesguide.com/">JanesGuide.com</a>.</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </fieldset>
+            <p class="submit"><input name="submit" class="button-primary" type="submit" value="<?php _e('Save Changes');?>" /></p>
+        </form>
+    </div>
+<?
+}
+
 /******************
  * Theme functions.
- */
+ *****************/
 
 /**
  * Displays this site's JanesGuide award.
@@ -72,9 +108,7 @@ $wp_janesguide = new WP_JanesGuide();
  */
 
 function wp_janesguide_award ($award = 'quality', $out = true) {
-    global $wp_janesguide;
-
-    $html = '<a href="' . $wp_janesguide->getReviewURI() . '"><img src="' . WP_JANESGUIDE_URL;
+    $html = '<a href="' . get_option('janesguide_review_uri') . '"><img src="' . WP_JANESGUIDE_URL;
     switch ($award) {
         case 'originalquality':
             $html .= '/linkbackqo.gif" alt="Jane says we\'re quality and original!"';
