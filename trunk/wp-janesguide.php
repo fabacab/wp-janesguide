@@ -53,6 +53,38 @@ class WP_JanesGuide {
 }
 $wp_janesguide = new WP_JanesGuide();
 
+class WP_JanesGuide_Widget extends WP_JanesGuide {
+    /**
+     * Registers to the WordPress Widget API.
+     */
+    function init () {
+        if (!function_exists('register_sidebar_widget') || !function_exists('register_widget_control')) { return; }
+        register_sidebar_widget('JanesGuide Widget', array('WP_JanesGuide_Widget', 'display'));
+        register_widget_control('JanesGuide Widget', array('WP_JanesGuide_Widget', 'control'));
+    }
+
+    /**
+     * Displays the widget.
+     */
+    function display ($args) {
+        extract($args);
+        print $before_widget;
+        print $before_title;
+        echo "<p>Hello world!</p>";
+        print $after_title;
+        print $after_widget;
+    }
+
+    /**
+     * Outputs widget settings screen.
+     */
+    function control () {
+        echo "<p>Hello world, control!</p>";
+    }
+}
+
+add_action('plugins_loaded', array('WP_JanesGuide_Widget', 'init'));
+
 /****************************
  * Administration page stuff.
  ***************************/
