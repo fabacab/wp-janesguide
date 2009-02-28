@@ -1,9 +1,9 @@
 <?php
 /*
  * Plugin Name: WP-JanesGuide
- * Version: 0.1
+ * Version: 0.2
  * Plugin URI: http://maybemaimed.com/playground/wp-janesguide-wordpress-plugin/
- * Description: Easily enables the display of <a href="http://JanesGuide.com">JanesGuide.com</a> awards on your WordPress-generated pages.
+ * Description: Easily enables the display of <a href="http://JanesGuide.com">JanesGuide.com</a> awards on your WordPress-generated pages via a widget or template tags.
  * Author: Meitar "maymay" Moscovitz
  * Author URI: http://maybemaimed.com/
  *
@@ -27,10 +27,6 @@
  *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *
  */
-
-/*********************
- * Metadata and stuff.
- ********************/
 
 define('WP_DEBUG', true);
 
@@ -67,11 +63,27 @@ class WP_JanesGuide_Widget extends WP_JanesGuide {
      * Displays the widget.
      */
     function display ($args) {
-        extract($args);
+        extract($args); // WordPress magic
+
+        $jgw_options = get_option('wp_janesguide_widget');
+        if (!is_array($jgw_options)) {
+            $jgw_options = array(
+                    'title' => 'JanesGuide Award',
+                    'rating' => 'icon'
+                );
+        }
+
         print $before_widget;
         print $before_title;
-        echo "<p>Hello world!</p>";
+        print $jgw_options['title'];
         print $after_title;
+
+        if ($jgw_options['rating'] === 'icon') {
+            wp_janesguide_icon();
+        } else {
+            wp_janesguide_award($jgw_options['rating']);
+        }
+
         print $after_widget;
     }
 
@@ -79,7 +91,56 @@ class WP_JanesGuide_Widget extends WP_JanesGuide {
      * Outputs widget settings screen.
      */
     function control () {
-        echo "<p>Hello world, control!</p>";
+        $jgw_options = get_option('wp_janesguide_widget');
+
+        if ($_POST['wp_janesguide_widget_submit']) {
+
+            switch ($_POST['wp_janesguide_rating']) {
+                case 'quality':
+                    $jgw_options['rating'] = 'quality';
+                break;
+                case 'originalquality':
+                    $jgw_options['rating'] = 'originalquality';
+                break;
+                case 'icon':
+                default:
+                    $jgw_options['rating'] = 'icon';
+                break;
+            }
+
+            if (!empty($_POST['wp_janesguide_widget_title'])) {
+                $jgw_options['title'] = htmlentities($_POST['wp_janesguide_widget_title'], ENT_QUOTES, get_bloginfo('charset'));
+            } else {
+                $jgw_options['title'] = ''; // we don't want a title
+            }
+
+            update_option('wp_janesguide_widget', $jgw_options);
+        }
+?>
+<!-- WP JanesGuide Widget options inline window -->
+<input type="hidden" id="wp_janesguide_widget_submit" name="wp_janesguide_widget_submit" value="1" />
+<fieldset>
+    <legend style="display: none;">Title Options:</legend>
+    <label for="wp_janesguide_widget_title">Title:</label>
+    <input id="wp_janesguide_widget_title" name="wp_janesguide_widget_title" class="widefat" value="<?php print $jgw_options['title'];?>" />
+</fieldset>
+<fieldset>
+    <legend>Image Options:</legend>
+    <p>
+        <input type="radio" name="wp_janesguide_rating" id="wp_janesguide_rating_icon" value="icon" <?php if ($jgw_options['rating'] === 'icon') : ?>checked="checked"<?php endif; ?> />
+        <label for="wp_janesguide_rating_icon">Generic Icon</label>
+    </p>
+    <p>
+        <input type="radio" name="wp_janesguide_rating" id="wp_janesguide_rating_quality" value="quality" <?php if ($jgw_options['rating'] === 'quality') : ?>checked="checked"<?php endif; ?> />
+        <label for="wp_janesguide_rating_quality">Quality Award</label>
+    </p>
+    <p>
+        <input type="radio" name="wp_janesguide_rating" id="wp_janesguide_rating_originalquality" value="originalquality" <?php if ($jgw_options['rating'] === 'originalquality') : ?>checked="checked"<?php endif; ?> />
+        <label for="wp_janesguide_rating_originalquality">Quality and Original Award</label>
+    </p>
+</fieldset>
+<p><a href="options-general.php?page=<?php print 'wp-janesguide/wp-janesguide.php';?>" title="Configure additional WP JanesGuide plugin options.">Set plugin options&hellip;</a></p>
+<?php
     }
 }
 
@@ -91,7 +152,7 @@ add_action('plugins_loaded', array('WP_JanesGuide_Widget', 'init'));
 
 add_action('admin_menu', 'wp_janesguide_menu');
 function wp_janesguide_menu () {
-    add_options_page('JanesGuide Awards', 'JanesGuide', 8, __FILE__, 'wp_janesguide_options');
+    add_options_page('JanesGuide Awards', 'JanesGuide', 8, 'wp-janesguide/wp-janesguide.php', 'wp_janesguide_options');
 }
 
 function wp_janesguide_options () {

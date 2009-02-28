@@ -1,16 +1,16 @@
 === Plugin Name ===
 Contributors: meitar
 #Donate link: http://example.com/
-#Tags: comments, spam
+Tags: widgets
 Requires at least: 2.5
 Tested up to: 2.7.1
-Stable tag: 0.1
+Stable tag: 0.2
 
 Easily enables the display of JanesGuide.com awards on your WordPress-generated pages.
 
 == Description ==
 
-Provides two template tags (theme functions), `wp_janesguide_award()` and `wp_janesguide_icon()`, which will display an image of one of two awards in the case of the former or a generic JanesGuide.com linkback icon in the case of the latter.
+Provides a simple-to-use widget and, if you want to use them, two template tags (theme functions): `wp_janesguide_award()` and `wp_janesguide_icon()`. These functions display an image of one of two awards in the case of the former or a generic JanesGuide.com linkback icon in the case of the latter. The widget can display any of these three options.
 
 Use `wp_janesguide_award()` if your site has received a "quality" (default) or a "quality and original" review from JanesGuide.com. For instance, to display a "quality and original" award icon, use code like this:
 
@@ -30,7 +30,7 @@ If you have not received a JanesGuide review yet, use:
 
 1. Upload `wp-janesguide.php` to the `/wp-content/plugins/` directory
 1. Activate the plugin through the 'Plugins' menu in WordPress
-1. Place `<?php wp_janesguides_award();?>` in your template whereever you would like to display your JanesGuide.com award
+1. Add the widget to one of your sidebars, or place `<?php wp_janesguides_award();?>` in your template where you would like to display your JanesGuide.com award
 
 == Frequently Asked Questions ==
 
@@ -43,6 +43,10 @@ I need to find an answer to that question. ;)
 You should read the very succinct [JanesGuide.com webmaster info](http://janesguide.com/wm/).
 
 == Change log ==
+
+= Version 0.2 =
+
+* Add widget capability.
 
 = Version 0.1 =
 
