@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=meita
 Tags: sidebar, widget, award
 Requires at least: 2.3
 Tested up to: 2.7.1
-Stable tag: 0.2
+Stable tag: 0.2.1
 
 Easily enables the display of JanesGuide.com review awards on your WordPress-generated pages via a widget or template tags.
 
@@ -15,6 +15,10 @@ Provides a simple-to-use widget and, if you want to use them, two template tags 
 Use `wp_janesguide_award()` if your site has received a "quality" (default) or a "quality and original" review from JanesGuide.com. For instance, to display a "quality and original" award icon, use code like this:
 
     <?php wp_janesguide_award('originalquality');?>
+
+Another version of the "quality and original" award icon can be used like this:
+
+    <?php wp_janesguide_award('originalquality2');?>
 
 To display the 'quality' icon, use:
 
@@ -30,7 +34,7 @@ If you have not received a JanesGuide review yet, use:
 
 1. Upload `wp-janesguide.php` to the `/wp-content/plugins/` directory
 1. Activate the plugin through the 'Plugins' menu in WordPress
-1. Add the widget to one of your sidebars, or place `<?php wp_janesguides_award();?>` in your template where you would like to display your JanesGuide.com award
+1. Add the widget to one of your sidebars, or place `<?php wp_janesguide_award();?>` in your template where you would like to display your JanesGuide.com award
 
 == Frequently Asked Questions ==
 
@@ -43,6 +47,10 @@ I need to find an answer to that question. ;)
 You should read the very succinct [JanesGuide.com webmaster info](http://janesguide.com/wm/).
 
 == Change log ==
+
+= Version 0.2.1 =
+
+* Add third award icon option to display the simplified, white background "Quality and Original" image.
 
 = Version 0.2 =
 

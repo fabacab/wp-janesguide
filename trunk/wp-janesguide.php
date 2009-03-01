@@ -1,7 +1,7 @@
 <?php
 /*
  * Plugin Name: WP-JanesGuide
- * Version: 0.2
+ * Version: 0.2.1
  * Plugin URI: http://maybemaimed.com/playground/wp-janesguide-wordpress-plugin/
  * Description: Easily enables the display of <a href="http://JanesGuide.com">JanesGuide.com</a> awards on your WordPress-generated pages via a widget or template tags.
  * Author: Meitar "maymay" Moscovitz
@@ -102,6 +102,9 @@ class WP_JanesGuide_Widget extends WP_JanesGuide {
                 case 'originalquality':
                     $jgw_options['rating'] = 'originalquality';
                 break;
+                case 'originalquality2':
+                    $jgw_options['rating'] = 'originalquality2';
+                break;
                 case 'icon':
                 default:
                     $jgw_options['rating'] = 'icon';
@@ -137,6 +140,10 @@ class WP_JanesGuide_Widget extends WP_JanesGuide {
     <p>
         <input type="radio" name="wp_janesguide_rating" id="wp_janesguide_rating_originalquality" value="originalquality" <?php if ($jgw_options['rating'] === 'originalquality') : ?>checked="checked"<?php endif; ?> />
         <label for="wp_janesguide_rating_originalquality">Quality and Original Award</label>
+    </p>
+    <p>
+        <input type="radio" name="wp_janesguide_rating" id="wp_janesguide_rating_originalquality2" value="originalquality2" <?php if ($jgw_options['rating'] === 'originalquality2') : ?>checked="checked"<?php endif; ?> />
+        <label for="wp_janesguide_rating_originalquality2">Quality and Original Award (simplified white background)</label>
     </p>
 </fieldset>
 <p><a href="options-general.php?page=<?php print 'wp-janesguide/wp-janesguide.php';?>" title="Configure additional WP JanesGuide plugin options.">Set plugin options&hellip;</a></p>
@@ -202,6 +209,9 @@ function wp_janesguide_award ($award = 'quality', $out = true) {
     switch ($award) {
         case 'originalquality':
             $html .= '/linkbackqo.gif" alt="Jane says we\'re quality and original!"';
+        break;
+        case 'originalquality2':
+            $html .= '/janes_quality_sex02.gif" alt="Jane says we\'re quality and original!"';
         break;
         case 'quality':
         default:
