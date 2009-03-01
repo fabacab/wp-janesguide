@@ -46,6 +46,10 @@ I need to find an answer to that question. ;)
 
 You should read the very succinct [JanesGuide.com webmaster info](http://janesguide.com/wm/).
 
+== Screenshots ==
+
+1. JanesGuide widget options window allows you to easily choose between four JanesGuide images to display that link to Jane's site. The "Set plugin options…" link allows you to configure additional, plugin-wide settings.
+
 == Change log ==
 
 = Version 0.2.1 =
