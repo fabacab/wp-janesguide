@@ -3,7 +3,7 @@ Contributors: meitar
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=meitarm%40gmail%2ecom&lc=US&item_name=WP%20JanesGuide%20WordPress%20Plugin&item_number=wp%2djanesguide&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted
 Tags: sidebar, widget, award
 Requires at least: 2.3
-Tested up to: 2.8.4
+Tested up to: 2.8.5
 Stable tag: 0.2.1
 
 Easily enables the display of JanesGuide.com review awards on your WordPress-generated pages via a widget or template tags.
