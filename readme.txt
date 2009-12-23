@@ -52,6 +52,10 @@ You should read the very succinct [JanesGuide.com webmaster info](http://janesgu
 
 == Change log ==
 
+= Version 0.3 =
+
+* Let the web address (URI) of a review accpet more flexible input.
+
 = Version 0.2.1 =
 
 * Add third award icon option to display the simplified, white background "Quality and Original" image.
