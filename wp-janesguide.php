@@ -61,6 +61,19 @@ class WP_JanesGuide_Widget extends WP_JanesGuide {
     }
 
     /**
+     * Validates review URI.
+     *
+     * @param $uri string A review URI string to check.
+     * @return bool True if a valid review URI, false otherwise.
+     */
+    function validateReviewURI ($uri) {
+        // Make sure we're actually pointing at JanesGuide.com, please.
+        // Or, of course, a subdomain, for flexible review URIs.
+        $pattern = "(?:[A-Za-z0-9-]+\.)?$this->janes_domain";
+        return (preg_match("#^$pattern#", $uri)) ? true : false;
+    }
+
+    /**
      * Displays the widget.
      */
     function display ($args) {
