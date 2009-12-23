@@ -38,7 +38,8 @@ if (!defined(WP_JANESGUIDE_URL)) {
 }
 
 class WP_JanesGuide {
-    var $janes_prefix = 'http://www.janesguide.com/'; /**< Hardcode the domain of JanesGuide.com to frustrate phishing opportunities. */
+    var $janes_scheme = 'http://'; /**< Hardcode the protocol of JanesGuide.com to frustrate phishing opportunities. */
+    var $janes_domain = 'janesguide.com'; /**< Hardcode the domain of JanesGuide.com to frustrate phishing opportunities. */
 
     /**
      * Constructor.
@@ -178,7 +179,7 @@ function wp_janesguide_options () {
                         <tr>
                             <th scope="row"><label for="janesguide_review_uri">Review URI</label></th>
                             <td>
-                                <?php print $wp_janesguide->janes_prefix;?><input id="janesguide_review_uri" name="janesguide_review_uri" class="regular-text" value="<?php print get_option('janesguide_review_uri');?>" onchange="if (this.value.match(/^http:\/\/www\.janesguide\.com\//)) { this.value = this.value.substr(26, this.value.length - 26) }" />
+                                <?php print $wp_janesguide->janes_scheme;?><input id="janesguide_review_uri" name="janesguide_review_uri" class="regular-text" value="<?php print get_option('janesguide_review_uri');?>" onchange="if (this.value.match(/^http:\/\/www\.janesguide\.com\//)) { this.value = this.value.substr(26, this.value.length - 26) }" />
                                 <span class="setting-description">Enter the web address of your review on <a href="http://www.janesguide.com/">JanesGuide.com</a>.</span>
                             </td>
                         </tr>
@@ -205,7 +206,7 @@ function wp_janesguide_options () {
 
 function wp_janesguide_award ($award = 'quality', $out = true) {
     global $wp_janesguide;
-    $html = '<a href="' . $wp_janesguide->janes_prefix . get_option('janesguide_review_uri') . '"><img src="' . WP_JANESGUIDE_URL;
+    $html = '<a href="' . $wp_janesguide->janes_scheme . get_option('janesguide_review_uri') . '"><img src="' . WP_JANESGUIDE_URL;
     switch ($award) {
         case 'originalquality':
             $html .= '/linkbackqo.gif" alt="Jane says we\'re quality and original!"';
@@ -235,7 +236,7 @@ function wp_janesguide_award ($award = 'quality', $out = true) {
 function wp_janesguide_icon () {
     global $wp_janesguide;
     $src   = WP_JANESGUIDE_URL . '/janesays.gif';
-    $html  = '<a href="' . $wp_janesguide->janes_prefix . '">';
+    $html  = '<a href="' . $wp_janesguide->janes_scheme . 'www' . $wp_janesguide->janes_domain '">';
     $html .= "<img src=\"$src\" alt=\"Fine adult website reviews, galleries, sex toys and more at JanesGuide.com!\" />";
     $html .= '</a>';
     print $html;
