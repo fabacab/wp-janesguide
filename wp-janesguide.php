@@ -65,6 +65,8 @@ class WP_JanesGuide_Widget extends WP_JanesGuide {
      *
      * @param $uri string A review URI string to check.
      * @return bool True if a valid review URI, false otherwise.
+     * @TODO: This is currently unused. Need to figure out how to make sure we
+     *        trap the options page save action and verify the URI. But, later.
      */
     function validateReviewURI ($uri) {
         // Make sure we're actually pointing at JanesGuide.com, please.
@@ -192,8 +194,8 @@ function wp_janesguide_options () {
                         <tr>
                             <th scope="row"><label for="janesguide_review_uri">Review URI</label></th>
                             <td>
-                                <?php print $wp_janesguide->janes_scheme;?><input id="janesguide_review_uri" name="janesguide_review_uri" class="regular-text" value="<?php print get_option('janesguide_review_uri');?>" onchange="if (this.value.match(/^http:\/\/www\.janesguide\.com\//)) { this.value = this.value.substr(26, this.value.length - 26) }" />
-                                <span class="setting-description">Enter the web address of your review on <a href="http://www.janesguide.com/">JanesGuide.com</a>.</span>
+                                <?php print $wp_janesguide->janes_scheme;?><input id="janesguide_review_uri" name="janesguide_review_uri" class="regular-text" value="<?php print get_option('janesguide_review_uri');?>" />
+                                <span class="setting-description">Enter the web address of your review on <a href="http://www.janesguide.com/">JanesGuide.com</a>. (Don't include the <code>http://</code> part.)</span>
                             </td>
                         </tr>
                     </tbody>
@@ -249,7 +251,7 @@ function wp_janesguide_award ($award = 'quality', $out = true) {
 function wp_janesguide_icon () {
     global $wp_janesguide;
     $src   = WP_JANESGUIDE_URL . '/janesays.gif';
-    $html  = '<a href="' . $wp_janesguide->janes_scheme . 'www' . $wp_janesguide->janes_domain '">';
+    $html  = "<a href=\"{$wp_janesguide->janes_scheme}{$wp_janesguide->janes_domain}\">";
     $html .= "<img src=\"$src\" alt=\"Fine adult website reviews, galleries, sex toys and more at JanesGuide.com!\" />";
     $html .= '</a>';
     print $html;
