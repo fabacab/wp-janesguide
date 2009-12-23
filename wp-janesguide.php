@@ -1,7 +1,7 @@
 <?php
 /*
  * Plugin Name: WP-JanesGuide
- * Version: 0.2.1
+ * Version: 0.3
  * Plugin URI: http://maybemaimed.com/playground/wp-janesguide-wordpress-plugin/
  * Description: Easily enables the display of <a href="http://JanesGuide.com">JanesGuide.com</a> awards on your WordPress-generated pages via a widget or template tags.
  * Author: Meitar "maymay" Moscovitz
