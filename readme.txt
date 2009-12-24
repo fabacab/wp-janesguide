@@ -54,7 +54,7 @@ You should read the very succinct [JanesGuide.com webmaster info](http://janesgu
 
 = Version 0.3 =
 
-* Let the web address (URI) of a review accpet more flexible input.
+* Let the web address (URI) of a review accept more flexible input.
 
 = Version 0.2.1 =
 
